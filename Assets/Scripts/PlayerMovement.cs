@@ -8,15 +8,13 @@ public class PlayerMovement : MonoBehaviour {
     [SerializeField] private float speed;
     [SerializeField] private float jumpHeight;
 
-    [Header("Player movement")]
-    [SerializeField] private KeyCode left;
-    [SerializeField] private KeyCode right;
-    [SerializeField] public KeyCode jump;
+    public KeyCode left;
+    public KeyCode right;
+    public KeyCode jump;
 
-    [Header("Player abilities")]
-    [SerializeField] public KeyCode kick;
-    [SerializeField] public KeyCode punch;
-    [SerializeField] public KeyCode specialAttack;
+    public KeyCode kick;
+    public KeyCode punch;
+    public KeyCode specialAttack;
 
     private Player player;
     private bool isGrounded;
@@ -31,6 +29,22 @@ public class PlayerMovement : MonoBehaviour {
         if (this.gameObject.CompareTag("Player2"))
         {
             this.Srenderer.flipX = true;
+            left = KeyCode.LeftArrow;
+            right = KeyCode.RightArrow;
+            jump = KeyCode.UpArrow;
+            kick = KeyCode.Alpha9;
+            punch = KeyCode.Alpha0;
+            specialAttack = KeyCode.Slash;
+        }
+        if (this.gameObject.CompareTag("Player1"))
+        {
+            this.Srenderer.flipX = false;
+            left = KeyCode.A;
+            right = KeyCode.D;
+            jump = KeyCode.W;
+            kick = KeyCode.Alpha6;
+            punch = KeyCode.Alpha7;
+            specialAttack = KeyCode.LeftShift;
         }
     }
 
@@ -46,7 +60,6 @@ public class PlayerMovement : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-        //print(isGrounded);
 
         //Movement
         if (Input.GetKey(right))

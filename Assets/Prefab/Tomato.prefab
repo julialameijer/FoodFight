@@ -134,10 +134,10 @@ BoxCollider2D:
   m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 5.1448693, y: 0.70325476}
+  m_Offset: {x: 5.3930025, y: -1.0659176}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -148,7 +148,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 4.923423, y: 4.3312073}
+  m_Size: {x: 5.419691, y: 2.4720786}
   m_EdgeRadius: 0
 --- !u!61 &61131989538627058
 BoxCollider2D:
@@ -234,7 +234,6 @@ MonoBehaviour:
   kickBool: 0
   punchBool: 0
   specialAttackBool: 0
-  opponent: {fileID: 0}
   damageStrength: 0
   playerHealth: 0
 --- !u!114 &114199732018668410

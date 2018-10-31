@@ -12,8 +12,11 @@ public class Player : MonoBehaviour
     public bool idleBool;
     public bool kickBool;
     public bool punchBool;
+    public bool walkBool;
     public bool specialAttackBool;
+    private bool isPlayer1;
     private List<GameObject> childs;
+    private SpriteRenderer Srenderer;
     [SerializeField] private float damageStrength;
     [SerializeField] private float playerHealth;
 
@@ -22,8 +25,9 @@ public class Player : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        animator = this.gameObject.GetComponent<Animator>();
         pm = GetComponentInParent<PlayerMovement>();
+        animator = this.gameObject.GetComponent<Animator>();
+        Srenderer = this.gameObject.GetComponent<SpriteRenderer>();
         jumpBool = false;
         idleBool = false;
         childs = new List<GameObject>();
@@ -45,13 +49,6 @@ public class Player : MonoBehaviour
                 this.damage();
             }
         }
-        if (this.gameObject.CompareTag("Player2"))
-        {
-            if (other.gameObject.CompareTag("Player1"))
-            {
-                this.damage();
-            }
-        }
     }
 
     void setAnimations()
@@ -60,12 +57,32 @@ public class Player : MonoBehaviour
         punchBool = Input.GetKey(pm.punch);
         specialAttackBool = Input.GetKey(pm.specialAttack);
         jumpBool = Input.GetKey(pm.jump);
+        walkBool = Input.GetKey(pm.left);
+        
+
+        if (Input.GetKey(pm.left))
+        {
+            walkBool = true;
+            Srenderer.flipX = true;
+        }
+        else if (Input.GetKey(pm.right))
+        {
+            walkBool = true;
+            Srenderer.flipX = false;
+        } else
+        {
+            walkBool = false;
+        }
+
+
+        print(walkBool);
 
         animator.SetBool("Kick", kickBool);
         animator.SetBool("Punch", punchBool);
         //animator.SetBool("SpecialAttack", specialAttackBool);
         animator.SetBool("Jump", jumpBool);
         animator.SetBool("Idle", idleBool);
+        animator.SetBool("Walk", walkBool);
     }
     
     void addColliders()
@@ -73,7 +90,6 @@ public class Player : MonoBehaviour
         for(int i = 0; i< transform.childCount; i++)
         {
             childs.Add(transform.GetChild(i).gameObject);
-            print(childs[i] + " " + i);
         }
         if (this.animator.GetCurrentAnimatorStateInfo(0).IsName("_PlayerKick"))
         { 
