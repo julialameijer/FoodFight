@@ -18,6 +18,9 @@ public class PlayerMovement : MonoBehaviour {
 
     private Player player;
     private bool isGrounded;
+    public bool walkBool;
+    private bool isLeft;
+    private bool isRight;
     private SpriteRenderer Srenderer;
 
     // Use this for initialization
@@ -26,9 +29,19 @@ public class PlayerMovement : MonoBehaviour {
         Srenderer = this.gameObject.GetComponent<SpriteRenderer>();
         isGrounded = true;
 
+        if (this.gameObject.CompareTag("Player1"))
+        {
+            isLeft = true;
+        }
+
         if (this.gameObject.CompareTag("Player2"))
         {
-            this.Srenderer.flipX = true;
+            isRight = true;
+        }
+
+        if (isRight)
+        {
+            this.transform.localScale = new Vector3(-0.35f, transform.localScale.y, transform.localScale.z);
             left = KeyCode.LeftArrow;
             right = KeyCode.RightArrow;
             jump = KeyCode.UpArrow;
@@ -36,7 +49,7 @@ public class PlayerMovement : MonoBehaviour {
             punch = KeyCode.Alpha0;
             specialAttack = KeyCode.Slash;
         }
-        if (this.gameObject.CompareTag("Player1"))
+        if (isLeft)
         {
             this.Srenderer.flipX = false;
             left = KeyCode.A;
@@ -62,6 +75,34 @@ public class PlayerMovement : MonoBehaviour {
     void Update () {
 
         //Movement
+        walkBool = Input.GetKey(left);
+        walkBool = Input.GetKey(right);
+
+        if (Input.GetKey(left) && isLeft)
+        {
+            walkBool = true;
+            Srenderer.flipX = true;
+        }
+        else if (Input.GetKey(right) && isLeft)
+        {
+            walkBool = true;
+            Srenderer.flipX = false;
+        }
+        else if(Input.GetKey(left) && isRight)
+        {
+            walkBool = true;
+            Srenderer.flipX = false;
+        }
+        else if (Input.GetKey(right) && isRight)
+        {
+            walkBool = true;
+            Srenderer.flipX = true;
+        }
+        else
+        {
+            walkBool = false;
+        }
+
         if (Input.GetKey(right))
         {
             transform.Translate(Vector3.right * Time.deltaTime * speed);

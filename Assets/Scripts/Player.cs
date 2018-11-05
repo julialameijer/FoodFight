@@ -12,9 +12,9 @@ public class Player : MonoBehaviour
     public bool idleBool;
     public bool kickBool;
     public bool punchBool;
-    public bool walkBool;
     public bool specialAttackBool;
     private bool isPlayer1;
+    private float health;
     private List<GameObject> childs;
     private SpriteRenderer Srenderer;
     [SerializeField] private float damageStrength;
@@ -30,6 +30,9 @@ public class Player : MonoBehaviour
         Srenderer = this.gameObject.GetComponent<SpriteRenderer>();
         jumpBool = false;
         idleBool = false;
+
+        health = 100;
+
         childs = new List<GameObject>();
     }
 
@@ -46,7 +49,14 @@ public class Player : MonoBehaviour
         {
             if (other.gameObject.CompareTag("Player2"))
             {
-                this.damage();
+                this.damage(false);
+            }
+        }
+        if (this.gameObject.CompareTag("Player2"))
+        {
+            if (other.gameObject.CompareTag("Player1"))
+            {
+                this.damage(false);
             }
         }
     }
@@ -57,32 +67,14 @@ public class Player : MonoBehaviour
         punchBool = Input.GetKey(pm.punch);
         specialAttackBool = Input.GetKey(pm.specialAttack);
         jumpBool = Input.GetKey(pm.jump);
-        walkBool = Input.GetKey(pm.left);
-        
 
-        if (Input.GetKey(pm.left))
-        {
-            walkBool = true;
-            Srenderer.flipX = true;
-        }
-        else if (Input.GetKey(pm.right))
-        {
-            walkBool = true;
-            Srenderer.flipX = false;
-        } else
-        {
-            walkBool = false;
-        }
-
-
-        print(walkBool);
+        print(pm.walkBool);
 
         animator.SetBool("Kick", kickBool);
         animator.SetBool("Punch", punchBool);
-        //animator.SetBool("SpecialAttack", specialAttackBool);
         animator.SetBool("Jump", jumpBool);
         animator.SetBool("Idle", idleBool);
-        animator.SetBool("Walk", walkBool);
+        animator.SetBool("Walk", pm.walkBool);
     }
     
     void addColliders()
@@ -107,11 +99,19 @@ public class Player : MonoBehaviour
     }
 
     
-    void damage()
+    void damage(bool isSpecialAttack)
     {
+        if (isSpecialAttack)
+        {
+            health -= 35;
+        }
+        else
+        {
+            health -= 10;
+        }
 
-        print("autsj!");
-
+        print(health);
+       
     }
 
 }
